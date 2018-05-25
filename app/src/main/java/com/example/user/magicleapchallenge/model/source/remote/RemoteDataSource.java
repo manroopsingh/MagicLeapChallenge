@@ -1,22 +1,18 @@
 package com.example.user.magicleapchallenge.model.source.remote;
 
-import android.util.Log;
-
 import com.example.user.magicleapchallenge.model.Coffee;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
 import com.example.user.magicleapchallenge.model.source.CoffeeDataSource;
-import com.example.user.magicleapchallenge.utils.TagUtils;
 
 import java.util.List;
 
-import static android.support.constraint.Constraints.TAG;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RemoteDataSource implements CoffeeDataSource{
+public class RemoteDataSource implements CoffeeDataSource {
 
     private static final String COFFEE_URL = "https://demo6983184.mockable.io";
 
@@ -31,11 +27,11 @@ public class RemoteDataSource implements CoffeeDataSource{
         return create().create(RemoteService.class);
     }
 
-    public Call<List<CoffeeItem>> getCoffeeItemCall(){
+    private Call<List<CoffeeItem>> getCoffeeItemCall() {
         return getService().getCoffeeItems();
     }
 
-    private Call<Coffee> getCoffeeCall(String coffee_id){
+    private Call<Coffee> getCoffeeCall(String coffee_id) {
         return getService().getCoffee(coffee_id);
     }
 
@@ -43,18 +39,17 @@ public class RemoteDataSource implements CoffeeDataSource{
     @Override
     public void getCoffeeItems(final LoadCoffeeItemsCallBack callBack) {
 
-        Log.d(TagUtils.get(this), "getCoffeeItems: ");
+
         getCoffeeItemCall().enqueue(new Callback<List<CoffeeItem>>() {
             @Override
-            public void onResponse(Call<List<CoffeeItem>> call, Response<List<CoffeeItem>> response) {
+            public void onResponse(Call<List<CoffeeItem>> call, final Response<List<CoffeeItem>> response) {
                 callBack.onCoffeeItemsLoaded(response.body());
-                Log.d(TagUtils.get(this), "onResponse: ");
+
             }
 
             @Override
             public void onFailure(Call<List<CoffeeItem>> call, Throwable t) {
                 callBack.onLoadingFailed(t.toString());
-                Log.d(TagUtils.get(this), "onFailure: ");
             }
         });
 

@@ -4,29 +4,29 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.user.magicleapchallenge.R;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
-import com.example.user.magicleapchallenge.model.source.CoffeeDataSource;
 import com.example.user.magicleapchallenge.model.source.CoffeeRepository;
 import com.example.user.magicleapchallenge.model.source.local.LocalDataSource;
 import com.example.user.magicleapchallenge.model.source.remote.RemoteDataSource;
-import com.example.user.magicleapchallenge.model.source.remote.RemoteService;
-import com.example.user.magicleapchallenge.utils.TagUtils;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+public class CoffeeListActivity extends AppCompatActivity implements CoffeeListContract.View{
 
-public class CoffeeListActivity extends AppCompatActivity implements CoffeeDataSource.LoadCoffeeItemsCallBack{
+
+    List<CoffeeItem> coffeeItems;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private CoffeeListAdapter coffeeListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +34,22 @@ public class CoffeeListActivity extends AppCompatActivity implements CoffeeDataS
         setContentView(R.layout.activity_coffee_list);
 
 
+
         RemoteDataSource remoteDataSource = new RemoteDataSource();
         LocalDataSource localDataSource = new LocalDataSource();
 
         CoffeeRepository coffeeRepository = new CoffeeRepository(remoteDataSource, localDataSource);
-//        coffeeRepository.getCoffeeItems(this);
 
 
-        remoteDataSource.getCoffeeItemCall().enqueue(new Callback<List<CoffeeItem>>() {
-            @Override
-            public void onResponse(Call<List<CoffeeItem>> call, Response<List<CoffeeItem>> response) {
-                Log.d(TagUtils.get(this), "onResponse: ");
-            }
+        CoffeeListPresenter presenter = new CoffeeListPresenter(coffeeRepository);
 
-            @Override
-            public void onFailure(Call<List<CoffeeItem>> call, Throwable t) {
+        presenter.attachView(this);
+        presenter.getCoffeeItems();
 
-                Log.d(TagUtils.get(this), "onFailure: ");
-            }
-        });
 
+        recyclerView = findViewById(R.id.rvCoffeeList);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
 
 
@@ -91,14 +87,16 @@ public class CoffeeListActivity extends AppCompatActivity implements CoffeeDataS
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onCoffeeItemsLoaded(List<CoffeeItem> coffeeItems) {
-        Log.d("MYTAG", "onCoffeeItemsLoaded: "+ coffeeItems.size());
+        coffeeListAdapter = new CoffeeListAdapter(coffeeItems, this);
+        recyclerView.setAdapter(coffeeListAdapter);
     }
 
     @Override
-    public void onLoadingFailed(String error) {
+    public void showError(String error) {
 
-        Log.d("MYTAG", "onLoadingFailed: "+ error);
+        Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
     }
 }
