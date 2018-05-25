@@ -61,7 +61,9 @@ public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailCo
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void bindViews() {
@@ -99,5 +101,10 @@ public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailCo
 
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detachView();
+        MagicLeapApplication.get(this).clearCoffeeDetailComponent();
+    }
 }
