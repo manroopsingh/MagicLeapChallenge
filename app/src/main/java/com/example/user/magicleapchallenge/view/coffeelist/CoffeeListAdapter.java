@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.user.magicleapchallenge.R;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
 
@@ -19,12 +20,15 @@ import java.util.List;
  */
 public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.ViewHolder> {
 
-    List<CoffeeItem> coffeeItems;
-    Context context;
+    private List<CoffeeItem> coffeeItems;
+    private Context context;
+    private OnItemClickListener onItemClickListener;
+
 
     public CoffeeListAdapter(List<CoffeeItem> coffeeItems, Context context) {
         this.coffeeItems = coffeeItems;
         this.context = context;
+        this.onItemClickListener = (OnItemClickListener) context;
     }
 
     @NonNull
@@ -41,7 +45,13 @@ public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.Vi
         CoffeeItem coffeeItem = coffeeItems.get(position);
         holder.tvCoffeeName.setText(coffeeItem.getName());
         holder.tvCoffeeDesc.setText(coffeeItem.getDesc());
-        //Glide.with(context).load(coffeeItem.getImageUrl()).into(holder.ivCoffee);
+        setCoffeeImage(holder.ivCoffee, coffeeItem);
+
+    }
+
+    private void setCoffeeImage(ImageView ivCoffee, CoffeeItem coffeeItem) {
+        if(!coffeeItem.getImageUrl().isEmpty())
+        Glide.with(context).load(coffeeItem.getImageUrl()).into(ivCoffee);
     }
 
     @Override
@@ -49,7 +59,7 @@ public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.Vi
         return coffeeItems.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvCoffeeName;
         TextView tvCoffeeDesc;
         ImageView ivCoffee;
@@ -59,6 +69,16 @@ public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.Vi
             tvCoffeeName = itemView.findViewById(R.id.tvCoffeeName);
             tvCoffeeDesc = itemView.findViewById(R.id.tvCoffeeDesc);
             ivCoffee = itemView.findViewById(R.id.ivCoffee);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onItemClickListener.onItemClicked(coffeeItems.get(getLayoutPosition()).getId());
+        }
+    }
+
+    interface OnItemClickListener{
+        void onItemClicked(String coffee_id);
     }
 }
