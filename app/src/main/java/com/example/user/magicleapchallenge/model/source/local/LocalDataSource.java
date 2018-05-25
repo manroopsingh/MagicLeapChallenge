@@ -77,7 +77,6 @@ public class LocalDataSource implements CoffeeDataSource {
             }
         }).start();
 
-
     }
 
     @Override
@@ -140,22 +139,17 @@ public class LocalDataSource implements CoffeeDataSource {
 
                         if (exists && finalCacheTime.equals("latest")) {
 
-                            Log.d(TagUtils.get(this), "onCoffeeExistsResult: true");
                             cacheCallback.cacheDirtyResults(false);
 
                         }else cacheCallback.cacheDirtyResults(true);
-
                     }
                 });
-                Log.d(TagUtils.get(this), "isCacheDirty: after checking");
-
                 break;
         }
 
     }
 
     private void checkIfCoffeeExists(final String coffee_id, final CheckIfExistsCallback callback) {
-
 
         new Thread(new Runnable() {
             @Override
@@ -174,7 +168,6 @@ public class LocalDataSource implements CoffeeDataSource {
 
             }
         }).start();
-
     }
 
     @Override
@@ -191,7 +184,6 @@ public class LocalDataSource implements CoffeeDataSource {
                 break;
 
         }
-
         editor.commit();
     }
 
@@ -204,6 +196,5 @@ public class LocalDataSource implements CoffeeDataSource {
     interface CheckIfExistsCallback {
         void onCoffeeExistsResult(boolean exists);
     }
-
 
 }

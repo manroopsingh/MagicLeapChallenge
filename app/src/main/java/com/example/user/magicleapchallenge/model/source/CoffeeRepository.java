@@ -29,7 +29,6 @@ public class CoffeeRepository {
                 if (isCacheDirty) {
 
                     //load from the server
-                    Log.d(TagUtils.get(this), "getCoffeeItems: loaded from server");
                     remoteCoffeeSource.getCoffeeItems(new CoffeeDataSource.LoadCoffeeItemsCallBack() {
                         @Override
                         public void onCoffeeItemsLoaded(List<CoffeeItem> coffeeItems) {
@@ -44,7 +43,6 @@ public class CoffeeRepository {
                     });
 
                 } else {
-                    Log.d(TagUtils.get(this), "getCoffeeItems: loaded from database");
                     localCoffeeSource.getCoffeeItems(new CoffeeDataSource.LoadCoffeeItemsCallBack() {
                         @Override
                         public void onCoffeeItemsLoaded(List<CoffeeItem> coffeeItems) {
@@ -71,9 +69,7 @@ public class CoffeeRepository {
             @Override
             public void cacheDirtyResults(boolean isCacheDirty) {
 
-                Log.d(TagUtils.get(this), "cacheDirtyResults: " + isCacheDirty);
                 if (isCacheDirty) {
-                    Log.d(TagUtils.get(this), "cacheDirtyResults: from server");
                     remoteCoffeeSource.getCoffeeDetails(coffee_id, new CoffeeDataSource.LoadCoffeeDetailCallBack() {
                         @Override
                         public void onCoffeeDetailLoaded(Coffee coffee) {
@@ -88,7 +84,6 @@ public class CoffeeRepository {
                         }
                     });
                 } else {
-                    Log.d(TagUtils.get(this), "cacheDirtyResults: from db");
                     localCoffeeSource.getCoffeeDetails(coffee_id, new CoffeeDataSource.LoadCoffeeDetailCallBack() {
                         @Override
                         public void onCoffeeDetailLoaded(Coffee coffee) {

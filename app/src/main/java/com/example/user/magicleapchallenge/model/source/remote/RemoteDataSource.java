@@ -42,7 +42,6 @@ public class RemoteDataSource implements CoffeeDataSource {
     @Override
     public void getCoffeeItems(final LoadCoffeeItemsCallBack callBack) {
 
-
         getCoffeeItemCall().enqueue(new Callback<List<CoffeeItem>>() {
             @Override
             public void onResponse(Call<List<CoffeeItem>> call, final Response<List<CoffeeItem>> response) {
@@ -93,7 +92,7 @@ public class RemoteDataSource implements CoffeeDataSource {
 
     @Override
     public void updateCacheTime(@Nullable String cacheType, String time) {
-// TODO: 5/25/18 Implement network caching
+        // TODO: 5/25/18 Implement network caching
     }
 
 

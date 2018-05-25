@@ -10,8 +10,9 @@
     tools:context=".view.coffeedetail.CoffeeDetailActivity"
     tools:showIn="@layout/activity_coffee_detail">
 
-
     <TextView
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:textSize="25sp"
         android:id="@+id/tvCoffeeName"
         android:layout_width="match_parent"
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/tvCoffeeTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
