@@ -66,7 +66,7 @@ public class RemoteDataSource implements CoffeeDataSource {
 
             @Override
             public void onFailure(Call<Coffee> call, Throwable t) {
-                callBack.onLoadingFailed();
+                callBack.onLoadingFailed(t.toString());
             }
         });
     }

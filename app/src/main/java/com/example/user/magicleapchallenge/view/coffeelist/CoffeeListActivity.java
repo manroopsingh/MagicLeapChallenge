@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -63,15 +65,15 @@ public class CoffeeListActivity extends BaseActivity implements CoffeeListContra
         MagicLeapApplication.get(this).getCoffeeListComponent().inject(this);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.menu_coffee_list, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle action bar item clicks here. The action bar will
 //        // automatically handle clicks on the Home/Up button, so long
 //        // as you specify a parent activity in AndroidManifest.xml.
@@ -81,8 +83,8 @@ public class CoffeeListActivity extends BaseActivity implements CoffeeListContra
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-//        return super.onOptionsItemSelected(item);
-//    }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
@@ -102,5 +104,13 @@ public class CoffeeListActivity extends BaseActivity implements CoffeeListContra
         Intent intent = new Intent(getApplicationContext(), CoffeeDetailActivity.class);
         intent.putExtra("coffee", coffee_id);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detachView();
+        MagicLeapApplication.get(this).clearCoffeeListComponent();
+
     }
 }

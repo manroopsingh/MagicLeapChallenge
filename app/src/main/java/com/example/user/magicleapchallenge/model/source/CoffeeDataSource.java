@@ -18,7 +18,7 @@ public interface CoffeeDataSource {
 
         void onCoffeeDetailLoaded(Coffee coffee);
 
-        void onLoadingFailed();
+        void onLoadingFailed(String error);
 
     }
 
