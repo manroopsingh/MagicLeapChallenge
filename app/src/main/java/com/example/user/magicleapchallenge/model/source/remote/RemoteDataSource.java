@@ -1,8 +1,11 @@
 package com.example.user.magicleapchallenge.model.source.remote;
 
+import android.support.annotation.Nullable;
+
 import com.example.user.magicleapchallenge.model.Coffee;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
 import com.example.user.magicleapchallenge.model.source.CoffeeDataSource;
+import com.example.user.magicleapchallenge.model.source.CoffeeRepository;
 
 import java.util.List;
 
@@ -70,4 +73,28 @@ public class RemoteDataSource implements CoffeeDataSource {
             }
         });
     }
+
+    @Override
+    public void saveCoffeeItems(List<CoffeeItem> coffeeItems) {
+        // TODO: 5/25/18 Implement POST for server
+    }
+
+    @Override
+    public void saveCoffee(Coffee coffee) {
+        // TODO: 5/25/18 Implement POST for server
+
+    }
+
+    @Override
+    public void isCacheDirty(@Nullable String cacheType, @Nullable String coffee_id, CoffeeRepository.CheckCacheCallback cacheCallback) {
+        // TODO: 5/25/18 Implement network caching
+
+    }
+
+    @Override
+    public void updateCacheTime(@Nullable String cacheType, String time) {
+// TODO: 5/25/18 Implement network caching
+    }
+
+
 }

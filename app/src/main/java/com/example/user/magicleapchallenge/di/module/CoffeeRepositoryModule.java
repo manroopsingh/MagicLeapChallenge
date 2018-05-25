@@ -1,5 +1,7 @@
 package com.example.user.magicleapchallenge.di.module;
 
+import android.content.Context;
+
 import com.example.user.magicleapchallenge.di.scope.AppScoped;
 import com.example.user.magicleapchallenge.model.source.CoffeeRepository;
 import com.example.user.magicleapchallenge.model.source.local.LocalDataSource;
@@ -9,7 +11,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Author: singh on: 25-May-18.
+ * Author: user on: 25-May-18.
  */
 
 @Module
@@ -24,8 +26,8 @@ public class CoffeeRepositoryModule {
 
     @AppScoped
     @Provides
-    LocalDataSource providesLocalDataSource() {
-        return new LocalDataSource();
+    LocalDataSource providesLocalDataSource(Context context) {
+        return new LocalDataSource(context);
     }
 
     @AppScoped

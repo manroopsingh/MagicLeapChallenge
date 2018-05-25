@@ -1,4 +1,4 @@
-package com.example.user.magicleapchallenge.model.source.local;
+package com.example.user.magicleapchallenge.model.source.local.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -16,10 +16,14 @@ public interface CoffeeDao  {
     void saveCoffee(Coffee coffee);
 
     @Insert
-    void insertAll(Coffee... coffees);
+    void insertAll(List<Coffee> coffees);
 
     @Query("SELECT * FROM Coffee")
     List<CoffeeItem> getAll();
+
+    @Query("SELECT * FROM COFFEE where id LIKE :coffee_id")
+    Coffee getCoffee(String coffee_id);
+
 
 
 }

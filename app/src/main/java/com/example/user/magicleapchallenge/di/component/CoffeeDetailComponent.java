@@ -7,7 +7,7 @@ import com.example.user.magicleapchallenge.view.coffeedetail.CoffeeDetailActivit
 import dagger.Subcomponent;
 
 /**
- * Author: singh on: 25-May-18.
+ * Author: user on: 25-May-18.
  */
 @ActivityScoped
 @Subcomponent(modules = CoffeeDetailModule.class)

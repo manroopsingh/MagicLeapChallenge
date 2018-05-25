@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class CoffeeListActivity extends BaseActivity implements CoffeeListContract.View, CoffeeListAdapter.OnItemClickListener{
+public class CoffeeListActivity extends BaseActivity implements
+        CoffeeListContract.View
+        , CoffeeListAdapter.OnItemClickListener{
 
 
     private RecyclerView recyclerView;
@@ -35,58 +38,47 @@ public class CoffeeListActivity extends BaseActivity implements CoffeeListContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_list);
+
         setupInjections();
+        bindViews();
+        setupToolbar();
+        setupFabButton();
+    }
 
-
-        presenter.attachView(this);
-        presenter.getCoffeeItems();
-
-
-        recyclerView = findViewById(R.id.rvCoffeeList);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-
-//
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
+    private void setupFabButton() {
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Adding coffees coming soon", Snackbar.LENGTH_LONG)
+                        .setAction("Add Coffee", null).show();
             }
         });
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void bindViews() {
+        recyclerView = findViewById(R.id.rvCoffeeList);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+        presenter.getCoffeeItems();
+
     }
 
     private void setupInjections() {
         MagicLeapApplication.get(this).getCoffeeListComponent().inject(this);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_coffee_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
+    
     @Override
     public void onCoffeeItemsLoaded(List<CoffeeItem> coffeeItems) {
         coffeeListAdapter = new CoffeeListAdapter(coffeeItems, this);

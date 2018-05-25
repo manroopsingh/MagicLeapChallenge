@@ -3,7 +3,7 @@ package com.example.user.magicleapchallenge.view.coffeedetail;
 import com.example.user.magicleapchallenge.model.Coffee;
 import com.example.user.magicleapchallenge.model.source.CoffeeDataSource;
 import com.example.user.magicleapchallenge.model.source.CoffeeRepository; /**
- * Author: singh on: 24-May-18.
+ * Author: user on: 24-May-18.
  */
 public class CoffeeDetailPresenter implements CoffeeDetailContract.Presenter, CoffeeDataSource.LoadCoffeeDetailCallBack{
 

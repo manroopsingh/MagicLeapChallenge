@@ -1,4 +1,4 @@
-package com.example.user.magicleapchallenge.model.source.local;
+package com.example.user.magicleapchallenge.model.source.local.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -15,7 +15,7 @@ public interface CoffeeItemDao {
     void saveCoffeeItem(CoffeeItem coffeeItem);
 
     @Insert
-    void insertAll(CoffeeItem... coffeeItems);
+    void insertAll(List<CoffeeItem> coffeeItems);
 
     @Query("SELECT * FROM CoffeeItem")
     List<CoffeeItem> getAll();

@@ -7,11 +7,12 @@ import com.example.user.magicleapchallenge.di.component.AppComponent;
 import com.example.user.magicleapchallenge.di.component.CoffeeDetailComponent;
 import com.example.user.magicleapchallenge.di.component.CoffeeListComponent;
 import com.example.user.magicleapchallenge.di.component.DaggerAppComponent;
+import com.example.user.magicleapchallenge.di.module.AppModule;
 import com.example.user.magicleapchallenge.di.module.CoffeeDetailModule;
 import com.example.user.magicleapchallenge.di.module.CoffeeListModule;
 
 /**
- * Author: singh on: 25-May-18.
+ * Author: user on: 25-May-18.
  */
 public class MagicLeapApplication extends Application {
 
@@ -24,6 +25,7 @@ public class MagicLeapApplication extends Application {
         super.onCreate();
 
         appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplicationContext()))
                 .build();
 
     }

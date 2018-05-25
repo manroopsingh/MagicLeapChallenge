@@ -8,7 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Author: singh on: 25-May-18.
+ * Author: user on: 25-May-18.
  */
 
 @Module

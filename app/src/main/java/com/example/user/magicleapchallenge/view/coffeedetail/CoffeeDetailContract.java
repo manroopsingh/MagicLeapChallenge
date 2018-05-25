@@ -5,7 +5,7 @@ import com.example.user.magicleapchallenge.view.base.BasePresenter;
 import com.example.user.magicleapchallenge.view.base.BaseView;
 
 /**
- * Author: singh on: 24-May-18.
+ * Author: user on: 24-May-18.
  */
 public interface CoffeeDetailContract {
 

@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * Author: singh on: 25-May-18.
+ * Author: user on: 25-May-18.
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)

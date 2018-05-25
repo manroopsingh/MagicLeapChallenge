@@ -16,7 +16,7 @@ import com.example.user.magicleapchallenge.model.CoffeeItem;
 import java.util.List;
 
 /**
- * Author: singh on: 24-May-18.
+ * Author: user on: 24-May-18.
  */
 public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.ViewHolder> {
 

@@ -7,7 +7,7 @@ import com.example.user.magicleapchallenge.model.source.CoffeeRepository;
 import java.util.List;
 
 /**
- * Author: singh on: 24-May-18.
+ * Author: user on: 24-May-18.
  */
 public class CoffeeListPresenter implements
         CoffeeListContract.Presenter,
