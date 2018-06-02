@@ -1,5 +1,6 @@
 package com.example.user.magicleapchallenge.model.source.local;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -19,6 +20,15 @@ import com.example.user.magicleapchallenge.utils.TagUtils;
 import java.util.List;
 
 import static android.arch.persistence.room.Room.databaseBuilder;
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
+import io.reactivex.Scheduler;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class LocalDataSource implements CoffeeDataSource {
 
@@ -42,66 +52,78 @@ public class LocalDataSource implements CoffeeDataSource {
         coffeeItemDao = db.coffeeItemDao();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void getCoffeeItems(final LoadCoffeeItemsCallBack callBack) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final List<CoffeeItem> coffeeItems = coffeeItemDao.getAll();
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
+        coffeeItemDao.getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<CoffeeItem>>() {
                     @Override
-                    public void run() {
+                    public void accept(List<CoffeeItem> coffeeItems) throws Exception {
                         callBack.onCoffeeItemsLoaded(coffeeItems);
                     }
                 });
-            }
-        }).start();
+
     }
 
     @Override
     public void getCoffeeDetails(final String coffee_id, final LoadCoffeeDetailCallBack callBack) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final Coffee coffee = coffeeDao.getCoffee(coffee_id);
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
+        coffeeDao.getCoffee(coffee_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Coffee>() {
                     @Override
-                    public void run() {
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Coffee coffee) {
                         callBack.onCoffeeDetailLoaded(coffee);
                     }
-                });
-            }
-        }).start();
 
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadingFailed(e.getMessage());
+
+                    }
+                });
+        
     }
 
     @Override
     public void saveCoffeeItems(final List<CoffeeItem> coffeeItems) {
 
-        new Thread(new Runnable() {
+        Completable.fromAction(new Action() {
             @Override
             public void run() {
                 db.coffeeItemDao().insertAll(coffeeItems);
                 updateCacheTime(COFFEE_ITEM_CACHE_TIME, getCurrentTime());
             }
-        }).start();
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+
 
     }
 
     @Override
     public void saveCoffee(final Coffee coffee) {
 
-        new Thread(new Runnable() {
+        Completable.fromAction(new Action() {
             @Override
             public void run() {
                 db.coffeeDao().saveCoffee(coffee);
                 updateCacheTime(COFFEE_CACHE_TIME, getCurrentTime());
             }
-        }).start();
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
 
     }
 
@@ -141,7 +163,7 @@ public class LocalDataSource implements CoffeeDataSource {
 
                             cacheCallback.cacheDirtyResults(false);
 
-                        }else cacheCallback.cacheDirtyResults(true);
+                        } else cacheCallback.cacheDirtyResults(true);
                     }
                 });
                 break;

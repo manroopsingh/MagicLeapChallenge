@@ -2,7 +2,7 @@ package com.example.user.magicleapchallenge.model.source.local;
 
 import android.os.AsyncTask;
 
-public class CoffeeExecutor extends AsyncTask<CoffeeExecutor.TaskRunner, Integer, Object> {
+public class CoffeeExecutor extends AsyncTask<Integer, Integer, Object> {
 
 
     TaskRunner taskRunner;
@@ -15,9 +15,11 @@ public class CoffeeExecutor extends AsyncTask<CoffeeExecutor.TaskRunner, Integer
 
     }
 
+
+
     @Override
-    protected Object doInBackground(TaskRunner... taskRunners) {
-        taskRunners[0].runOnWorker();
+    protected Object doInBackground(Integer... integers) {
+        taskRunner.runOnWorker();
 
         return null;
     }

@@ -9,6 +9,9 @@ import com.example.user.magicleapchallenge.model.CoffeeItem;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 @Dao
 public interface CoffeeDao  {
 
@@ -22,7 +25,8 @@ public interface CoffeeDao  {
     List<CoffeeItem> getAll();
 
     @Query("SELECT * FROM COFFEE where id LIKE :coffee_id")
-    Coffee getCoffee(String coffee_id);
+    Single<Coffee> getCoffee(String coffee_id);
+
 
 
 

@@ -8,6 +8,8 @@ import com.example.user.magicleapchallenge.model.CoffeeItem;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface CoffeeItemDao {
 
@@ -18,7 +20,8 @@ public interface CoffeeItemDao {
     void insertAll(List<CoffeeItem> coffeeItems);
 
     @Query("SELECT * FROM CoffeeItem")
-    List<CoffeeItem> getAll();
+    Flowable<List<CoffeeItem>> getAll();
+
 
 
 }
