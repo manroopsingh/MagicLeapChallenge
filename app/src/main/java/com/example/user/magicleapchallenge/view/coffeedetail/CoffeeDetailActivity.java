@@ -17,13 +17,15 @@ import com.example.user.magicleapchallenge.MagicLeapApplication;
 import com.example.user.magicleapchallenge.R;
 import com.example.user.magicleapchallenge.model.Coffee;
 import com.example.user.magicleapchallenge.utils.ToastIt;
+import com.example.user.magicleapchallenge.utils.Utils;
 import com.example.user.magicleapchallenge.view.base.BaseActivity;
 
 import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailContract.View{
+public class CoffeeDetailActivity extends BaseActivity
+        implements CoffeeDetailContract.View, View.OnClickListener {
 
     @Inject
     CoffeeDetailPresenter presenter;
@@ -52,13 +54,7 @@ public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailCo
 
     private void setupFabButton() {
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Loading more information", Snackbar.LENGTH_LONG)
-                        .setAction("More info", null).show();
-            }
-        });
+        fab.setOnClickListener(this);
     }
 
     private void setupToolbar() {
@@ -81,7 +77,6 @@ public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailCo
         super.onStart();
         presenter.attachView(this);
         presenter.getCoffeeDetails(coffee_id);
-
     }
 
     private void setupInjections() {
@@ -100,10 +95,7 @@ public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailCo
 
     @Override
     public void showError(String error) {
-
-        ToastIt.On(this).with("Something");
-
-
+        Utils.showToast(this, error);
     }
 
     @Override
@@ -111,5 +103,10 @@ public class CoffeeDetailActivity extends BaseActivity implements CoffeeDetailCo
         super.onStop();
         presenter.detachView();
         MagicLeapApplication.get(this).clearCoffeeDetailComponent();
+    }
+
+    @Override
+    public void onClick(View view) {
+        Utils.showSnack(view, "Loading more information", "More info");
     }
 }
