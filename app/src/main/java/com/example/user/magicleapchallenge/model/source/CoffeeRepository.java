@@ -1,11 +1,9 @@
 package com.example.user.magicleapchallenge.model.source;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.user.magicleapchallenge.model.Coffee;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
-import com.example.user.magicleapchallenge.utils.TagUtils;
 
 import java.util.List;
 

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.user.magicleapchallenge.MagicLeapApplication;
 import com.example.user.magicleapchallenge.R;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
+import com.example.user.magicleapchallenge.utils.ToastIt;
 import com.example.user.magicleapchallenge.view.base.BaseActivity;
 import com.example.user.magicleapchallenge.view.coffeedetail.CoffeeDetailActivity;
 
@@ -38,6 +39,8 @@ public class CoffeeListActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_list);
+
+
 
         setupInjections();
         bindViews();

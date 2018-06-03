@@ -3,10 +3,7 @@ package com.example.user.magicleapchallenge.model.source.local;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.user.magicleapchallenge.model.Coffee;
 import com.example.user.magicleapchallenge.model.CoffeeItem;
@@ -15,14 +12,11 @@ import com.example.user.magicleapchallenge.model.source.CoffeeRepository;
 import com.example.user.magicleapchallenge.model.source.local.room.CoffeeDao;
 import com.example.user.magicleapchallenge.model.source.local.room.CoffeeDatabase;
 import com.example.user.magicleapchallenge.model.source.local.room.CoffeeItemDao;
-import com.example.user.magicleapchallenge.utils.TagUtils;
 
 import java.util.List;
 
 import static android.arch.persistence.room.Room.databaseBuilder;
 import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
-import io.reactivex.Scheduler;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -91,7 +85,7 @@ public class LocalDataSource implements CoffeeDataSource {
 
                     }
                 });
-        
+
     }
 
     @Override
@@ -107,7 +101,6 @@ public class LocalDataSource implements CoffeeDataSource {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
-
 
     }
 
@@ -171,25 +164,19 @@ public class LocalDataSource implements CoffeeDataSource {
 
     }
 
+    @SuppressLint("CheckResult")
     private void checkIfCoffeeExists(final String coffee_id, final CheckIfExistsCallback callback) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                final Coffee coffee = coffeeDao.getCoffee(coffee_id);
-
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
+        coffeeDao.getCoffee(coffee_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Coffee>() {
                     @Override
-                    public void run() {
-
+                    public void accept(Coffee coffee) throws Exception {
                         callback.onCoffeeExistsResult(coffee != null);
                     }
                 });
 
-            }
-        }).start();
     }
 
     @Override
@@ -206,7 +193,7 @@ public class LocalDataSource implements CoffeeDataSource {
                 break;
 
         }
-        editor.commit();
+        editor.apply();
     }
 
 
