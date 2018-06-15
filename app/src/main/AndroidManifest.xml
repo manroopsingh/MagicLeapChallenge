@@ -27,6 +27,11 @@
             android:label="@string/title_activity_coffee_detail"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".view.addCoffee.AddCoffeeActivity"
+            android:label="@string/title_activity_add_coffee"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
